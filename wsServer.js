@@ -2,8 +2,8 @@
 const WebSocket = require('ws');
 
 const getTileId = (lat, lng) => {
-  const tileSizeLat = 33.3 / 111320; 
-  const tileSizeLng = 33.3 / (111320 * Math.cos(lat * Math.PI / 180)); // Dynamic to account for curvature
+  const tileSizeLat = 33.33 / 111320; 
+  const tileSizeLng = 33.33 / (111320 * Math.cos(lat * Math.PI / 180)); // Dynamic to account for curvature
 
   const latIndex = Math.floor(lat / tileSizeLat);
   const lngIndex = Math.floor(lng / tileSizeLng);
@@ -40,6 +40,24 @@ const db = [
     lat: 29.6417944,
     lng: 77.3150804,
     tileId: getTileId(29.6417944, 77.3150804)
+  },
+  {
+    message: "Hello pardhan ameer ajam ka ghar.",
+    lat: 29.6420176,
+    lng: 77.314445,
+    tileId: getTileId(29.6420176, 77.314445)
+  },
+  {
+    message: "Hello T point.",
+    lat: 29.6417716,
+    lng: 77.3142974,
+    tileId: getTileId(29.6417716, 77.3142974)
+  },
+  {
+    message: "Hello istakar bahdi ka ghar",
+    lat: 29.6412389,
+    lng: 77.3140288,
+    tileId: getTileId(29.6412389, 77.3140288)
   },
 ]
 
