@@ -2,8 +2,8 @@
 const WebSocket = require('ws');
 
 const getTileId = (lat, lng) => {
-  const tileSizeLat = 25 / 111320; // ~0.00044966
-  const tileSizeLng = 25 / (111320 * Math.cos(lat * Math.PI / 180)); // Dynamic to account for curvature
+  const tileSizeLat = 33.3 / 111320; 
+  const tileSizeLng = 33.3 / (111320 * Math.cos(lat * Math.PI / 180)); // Dynamic to account for curvature
 
   const latIndex = Math.floor(lat / tileSizeLat);
   const lngIndex = Math.floor(lng / tileSizeLng);
@@ -28,58 +28,20 @@ function getNeighborTileIds(tileId) {
 }
 
 
-
 const db = [
   {
-    message: "Hello bhai rashid dairy message",
-    lat: 29.642043,
-    lng: 77.3143749,
-    tileId: getTileId(29.6416154, 77.3141156)
+    message: "Hello bhai ovesh shettering work message",
+    lat: 29.6417944,
+    lng: 77.3150804,
+    tileId: getTileId(29.6417944, 77.3150804)
   },
   {
-    message: "Hello nafees barah wala",
-    lat: 29.6412612,
-    lng: 77.3126424,
-    tileId: getTileId(29.6416127, 77.3141162)
+    message: "Hello abba ka ghar.",
+    lat: 29.6417944,
+    lng: 77.3150804,
+    tileId: getTileId(29.6417944, 77.3150804)
   },
-  {
-    message: "Hello abba ki dukan",
-    lat: 29.6423287,
-    lng: 77.3152182,
-    tileId: getTileId(29.6415968, 77.314052)
-  },
-
 ]
-
-const tilesIdsList = [
-  32935_85904,
-  32935_85904,
-  32935_85904
-]
-
-
-const coords = [
-  [29.6415968, 77.314052],
-  [29.641592, 77.3140828],
-  [29.6415919, 77.3140899],
-  [29.6415888, 77.3140862],
-  [29.6415873, 77.314082],
-  [29.6415825, 77.3141066],
-  [29.6416051, 77.3141222],
-  [29.6416085, 77.3141238],
-  [29.6416127, 77.3141162],
-  [29.6416154, 77.3141156],
-  [29.6412612,77.3126424], // eid gah coords
-  [29.642043,77.3143749], // rashid khan dairy
-  [29.6423287,77.3152182] // abba dukan 
-
-];
-
-
-coords.forEach((cord) => {
-  const tileId = getTileId(cord[0], cord[1]);
-  console.log(tileId)
-});
 
 // Target coordinates
 const targetedCords = {
@@ -147,6 +109,8 @@ function startWSServer(server) {
         if (nearbyMessages.length > 0) {
           nearbyMessages.forEach((msg) => {
             const distance = getDistanceFromLatLonInMeters(msg.lat,msg.lng,lat,lng)
+            console.log(`Message: "${msg.message}" at tile ${msg.tileId}, Distance: ${distance}`);
+            console.log(msg)
             if(distance <= 50){
               ws.send(`🧾 Message: "${msg.message}" at tile ${msg.tileId}, Distance: ${distance}`);
               console.log(`Message: "${msg.message}" at tile ${msg.tileId}`);
