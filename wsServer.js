@@ -87,8 +87,8 @@ coords.forEach((cord) => {
 
 // Target coordinates
 const targetedCords = {
-  latitude: 29.6416154,
-  longitude: 77.3141156,
+  latitude: 29.6412612,
+  longitude: 77.3126424,
   accuracy: 4 // meters
 };
 
