@@ -1,10 +1,9 @@
 // wsServer.js
 const WebSocket = require('ws');
-const handleLocation = require('./messages/handleLocation');
 
 const getTileId = (lat, lng) => {
-  const tileSizeLat = 50 / 111320; // ~0.00044966
-  const tileSizeLng = 50 / (111320 * Math.cos(lat * Math.PI / 180)); // Dynamic to account for curvature
+  const tileSizeLat = 25 / 111320; // ~0.00044966
+  const tileSizeLng = 25 / (111320 * Math.cos(lat * Math.PI / 180)); // Dynamic to account for curvature
 
   const latIndex = Math.floor(lat / tileSizeLat);
   const lngIndex = Math.floor(lng / tileSizeLng);
@@ -31,30 +30,25 @@ function getNeighborTileIds(tileId) {
 
 
 const db = [
-  // {
-  //   message: "Hello last message",
-  //   lat: 29.6416154,
-  //   lng: 77.3141156,
-  //   tileId: getTileId(29.6416154, 77.3141156)
-  // },
-  // {
-  //   message: "Hello second last message",
-  //   lat: 29.6416127,
-  //   lng: 77.3141162,
-  //   tileId: getTileId(29.6416127, 77.3141162)
-  // },
-  // {
-  //   message: "Hello first mesage",
-  //   lat: 29.6415968,
-  //   lng: 77.314052,
-  //   tileId: getTileId(29.6415968, 77.314052)
-  // },
-  // {
-  //   message: "Hello first mesage",
-  //   lat: 29.6416154,
-  //   lng: 77.3141156,
-  //   tileId: getTileId(29.6416154, 77.3141156)
-  // }
+  {
+    message: "Hello bhai rashid dairy message",
+    lat: 29.642043,
+    lng: 77.3143749,
+    tileId: getTileId(29.6416154, 77.3141156)
+  },
+  {
+    message: "Hello nafees barah wala",
+    lat: 29.6412612,
+    lng: 77.3126424,
+    tileId: getTileId(29.6416127, 77.3141162)
+  },
+  {
+    message: "Hello abba ki dukan",
+    lat: 29.6423287,
+    lng: 77.3152182,
+    tileId: getTileId(29.6415968, 77.314052)
+  },
+
 ]
 
 const tilesIdsList = [
@@ -75,7 +69,9 @@ const coords = [
   [29.6416085, 77.3141238],
   [29.6416127, 77.3141162],
   [29.6416154, 77.3141156],
-  [29.6412612,77.3126424] // eid gah coords
+  [29.6412612,77.3126424], // eid gah coords
+  [29.642043,77.3143749], // rashid khan dairy
+  [29.6423287,77.3152182] // abba dukan 
 
 ];
 
@@ -124,20 +120,20 @@ function startWSServer(server) {
       const [lat, lng, accuracy] = cords.map(Number);
 
       // Calculate distance to target
-      const distance = getDistanceFromLatLonInMeters(
-        targetedCords.latitude,
-        targetedCords.longitude,
-        lat,
-        lng
-      ) + targetedCords.accuracy + accuracy;
+      // const distance = getDistanceFromLatLonInMeters(
+      //   targetedCords.latitude,
+      //   targetedCords.longitude,
+      //   lat,
+      //   lng
+      // ) + targetedCords.accuracy;
 
-      console.log(`User is ${distance.toFixed(2)} meters away`);
+      // console.log(`User is ${distance.toFixed(2)} meters away`);
 
       // If within 50 meters
-      console.log(distance)
-      ws.send(`User is ${distance.toFixed(2)} meters away`)
-      if (distance <= 50) {
-        ws.send("📍 Your location noted.");
+      // console.log(distance)
+      // ws.send(`User is ${distance.toFixed(2)} meters away`)
+      // if (distance <= 50) {
+      //   ws.send("📍 Your location noted.");
 
         // Get user's current tile
         const userTileId = getTileId(lat, lng);
@@ -150,12 +146,21 @@ function startWSServer(server) {
 
         if (nearbyMessages.length > 0) {
           nearbyMessages.forEach((msg) => {
-            ws.send(`🧾 Message: "${msg.message}" at tile ${msg.tileId}`);
+            const distance = getDistanceFromLatLonInMeters(msg.lat,msg.lng,lat,lng)
+            if(distance <= 50){
+              ws.send(`🧾 Message: "${msg.message}" at tile ${msg.tileId}, Distance: ${distance}`);
+              console.log(`Message: "${msg.message}" at tile ${msg.tileId}`);
+            }
+            else{
+              ws.send("message are in, but not in range")
+              console.log("Messasge are in but not in range.")
+            }
           });
         } else {
           ws.send("😕 No messages nearby.");
+          console.log("No messages found in nearby tiles.");
         }
-      }
+      // }
 
     });
 
